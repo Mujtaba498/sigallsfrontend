@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
-import Script from "next/script";
+import HeaderScripts from "@/components/HeaderScripts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -80,35 +80,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const categories = await getCategories();
+  const [categories, seoData] = await Promise.all([
+    getCategories(),
+    getSeoData(),
+  ]);
 
   return (
     <html lang="fr" className="light">
       <head>
-        <Script
-          id="google-adsense"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357542773862734"
-          strategy="beforeInteractive"
-          async
-          crossOrigin="anonymous"
-        />
+
+        <HeaderScripts scripts={seoData?.headerScripts} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-7XSEYGLERG"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-7XSEYGLERG');
-          `}
-        </Script>
         <Header categories={categories} />
         {children}
         <Footer />

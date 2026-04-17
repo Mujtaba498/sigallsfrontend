@@ -228,6 +228,7 @@ export interface SeoData {
     metaTitle: string;
     metaDescription: string;
     footerContent: string;
+    headerScripts?: string;
     metaKeywords: string;
     ogTitle: string;
     ogDescription: string;
