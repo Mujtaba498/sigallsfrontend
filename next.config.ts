@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return {
+      afterFiles: [
+        {
+          source: "/:file([^/]+\\.html)",
+          destination: "/api/seo-verification/:file",
+        },
+      ],
+    };
+  },
 };
 
 export default nextConfig;
