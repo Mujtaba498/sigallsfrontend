@@ -16,12 +16,18 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return {
-      afterFiles: [
+      beforeFiles: [
         {
-          source: "/:file([^/]+\\.html)",
-          destination: "/api/seo-verification/:file",
+          source: "/:path(.*\\.html)",
+          destination: "/api/verification/:path",
+        },
+        {
+          source: "/:path((?!ads\\.txt$).*\\.txt)",
+          destination: "/api/verification/:path",
         },
       ],
+      afterFiles: [],
+      fallback: [],
     };
   },
 };
